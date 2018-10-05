@@ -32,6 +32,7 @@ class SenseMachine:
                     # print(self.b)
                     break
                 else:
+                    '''遍历结束且都能正确分类'''
                     if i == row - 1:
                         flag = False
                 i = i + 1
@@ -47,11 +48,21 @@ class SenseMachine:
         else:
             return -1
 
+    '''获取Gram矩阵'''
+    def getGramMatrix(self, data):
+        row = data.shape[0]
+        G = np.zeros([row, row])
+        for i in range(row):
+            for j in range(row):
+                G[i][j] = np.dot(data[i], data[j])
+        return G
+
 
 if __name__ == "__main__":
-    sm = SenseMachine()
+    sm = SenseMachine(learningRate=1)
     data = np.array([[3, 3], [4, 3], [1, 1]])
     target = np.array([1, 1, -1])
     sm.fit_transform(data, target)
     predict_data = np.array([1, 1])
     print(sm.predict(predict_data))
+    print(sm.getGramMatrix(data))
